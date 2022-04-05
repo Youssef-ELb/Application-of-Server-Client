@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
          //------------------------------------------------>
          if (getifaddrs(&intf) == -1) {
             perror("getifaddrs");
-            exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);}
            //------------------------------------------------>
         // Exécution d'un fork pour gérer la connexion
         if((pid=fork())==-1) {
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         }
         else if(pid==0) { // Le processus fils
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-            write(connfd, sendBuff, strlen(sendBuff));
+            write(connfd, sendBuff, strlen(sendBuff));}
             //------------------------------------------------>
              for (addr = intf; addr != NULL; addr = addr->ifa_next) {
                family = addr->ifa_addr->sa_family;
@@ -83,8 +83,8 @@ int main(int argc, char *argv[])
               s = getnameinfo(addr->ifa_addr, 
                           sizeof(struct sockaddr_in),  hostname,    NI_MAXHOST,NULL,0,NI_NUMERICHOST);
           printf("<interface>: %s \t <adresse> %s\n", addr->ifa_name, hostname);
-        }//------------------------------------------------>
+        } }//------------------------------------------------>
             close(connfd);
-        }
+       
     }
 }
