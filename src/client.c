@@ -54,24 +54,19 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
-    int pid = 0;
-	    // Récupération du nom de la machine
-    char hostname[128];
-    gethostname(hostname, sizeof hostname);
-
-    // Lecture des informations envoyées par le serveur sur la socket
+   
+    // Lecture des informations envoyées vers le serveur sur la socket
     while (1)
     { 
-	    if((pid=fork())==-1) {
-            printf("erreur\n");
-            close(sockfd);
-        }
-        else if(pid>0) { // Le processus père
-            close(sockfd);
-        }
-        else if(pid==0) { // Le processus fils
-            snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-            write(sockfd, sendBuff, strlen(sendBuff));
-               }
-  close(sockfd);
+	   printf("enter un message");
+      	   scanf("%s", sendBuff);
+	   //send some data
+	   
+            if(send(sockfd, sendBuff, strlen(sendBuff),0)<0){
+            
+            puts("sends failed !");
+            return 1;
+            }
+     }
+  	close(sockfd);
 }
