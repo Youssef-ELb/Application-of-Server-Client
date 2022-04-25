@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     int  n = 0;
     // Le buffer pour recevoir la réponse du serveur
     char recvBuff[1024] = {0};
+    char sendBuff[1024] = {0};
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
     
@@ -53,10 +54,11 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
-    
+    int pid = 0;
     // Lecture des informations envoyées par le serveur sur la socket
-    while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
+    while (1)
     {
+       if(recv(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
         if(fputs(recvBuff, stdout) == EOF)
@@ -64,11 +66,16 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
     }
-    
+       if(read(connfd, sendBuff, sizeof(sendBuff)-1>0){
+            snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
+            puts("recv failed");
+    }
+          }
     if(n < 0)
     {
         printf("\n Read error \n");
     }
-
+ 
+	  
     return 0;
 }
