@@ -73,9 +73,5 @@ int main(int argc, char *argv[])
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
             write(sockfd, sendBuff, strlen(sendBuff));
                }
-    if(n < 0)
-    {
-        printf("\n Read error \n");
-    }
-    return 0;
+  close(sockfd);
 }
