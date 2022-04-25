@@ -54,11 +54,11 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
-    
+    int pid = 0;
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
     {
-        while( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
+       if(recv(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
         if(fputs(recvBuff, stdout) == EOF)
@@ -66,15 +66,16 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
     }
-        while( (n=write(connfd, sendBuff, sizeof(sendBuff)-1>0){
+       if(read(connfd, sendBuff, sizeof(sendBuff)-1>0){
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-            // if(send(sd_env, buffer_env, strlen(buffer_env), 0) < 0){
+            puts("recv failed");
     }
-                }
+          }
     if(n < 0)
     {
         printf("\n Read error \n");
     }
-
+ 
+	  
     return 0;
 }
