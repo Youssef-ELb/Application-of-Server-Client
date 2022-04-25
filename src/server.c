@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 {
     // La socket serveur
     int listenfd = 0;
+    int n=0;
     // La socket client (récupérée avec accept())
     int connfd = 0;
     // La structure avec les informations du serveur
