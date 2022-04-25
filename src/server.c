@@ -65,6 +65,6 @@ int main(int argc, char *argv[])
             
             close(connfd);
         }
-       printf("%d\n", inet_ntoa((struct sockaddr*)&adr_c)); 
+       printf("%d\n", inet_ntoa((struct sockaddr*)&serv_addr)); 
     }
 }
