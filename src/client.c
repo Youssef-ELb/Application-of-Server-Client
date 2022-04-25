@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
     {
-       if(recv(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
+       if(recv(sockfd, recvBuff, sizeof(recvBuff)-1),0) > 0){
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
         if(fputs(recvBuff, stdout) == EOF)
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
     }
-       if(read(connfd, sendBuff, sizeof(sendBuff)-1>0){
+       if(read(connfd, sendBuff, sizeof(sendBuff)-1,0>0){
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
             puts("recv failed");
     }
