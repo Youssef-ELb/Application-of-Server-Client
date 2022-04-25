@@ -47,8 +47,6 @@ int main(int argc, char *argv[])
     gethostname(hostname, sizeof hostname);
     
     int pid = 0;
-    while(1)
-    {
         // Accepte la connexion d'une socket client
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
         
@@ -82,5 +80,5 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-    }
+    
 }
