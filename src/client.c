@@ -55,6 +55,10 @@ int main(int argc, char *argv[])
         return 1;
     }
     int pid = 0;
+	    // Récupération du nom de la machine
+    char hostname[128];
+    gethostname(hostname, sizeof hostname);
+
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
     { 
