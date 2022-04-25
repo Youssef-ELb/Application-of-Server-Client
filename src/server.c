@@ -19,6 +19,10 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr = {0};
     // Le buffer pour envoyer les données
     char sendBuff[1025] = {0};
+    //----------------------------------
+    // Le buffer pour recevoir la ip du client
+    char recvBuff[1024] = {0};
+    //----------------------------------
     
     // Création de la socket serveur
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,5 +64,25 @@ int main(int argc, char *argv[])
             
             close(connfd);
         }
+        char hostbuffer[256];
+    char *IPbuffer;
+    struct hostent *host_entry;
+    int hostname;
+  
+    // To retrieve hostname
+    hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+    checkHostName(hostname);
+  
+    // To retrieve host information
+    host_entry = gethostbyname(hostbuffer);
+    checkHostEntry(host_entry);
+  
+    // To convert an Internet network
+    // address into ASCII string
+    IPbuffer = inet_ntoa(*((struct in_addr*)
+                           host_entry->h_addr_list[0]));
+  
+    printf("Hostname: %s\n", hostbuffer);
+    printf("Host IP: %s", IPbuffer);
     }
 }
