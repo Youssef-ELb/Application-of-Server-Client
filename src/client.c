@@ -57,25 +57,21 @@ int main(int argc, char *argv[])
     int pid = 0;
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
-    {
-       if(recv(sockfd, recvBuff, sizeof(recvBuff)-1),0) > 0){
-        recvBuff[n] = 0;
-        // Affichage des informations recues sur la sortie standard
-        if(fputs(recvBuff, stdout) == EOF)
-        {
-            printf("\n Error : Fputs error\n");
+    { 
+	    if((pid=fork())==-1) {
+            printf("erreur\n");
+            close(sockfd);
         }
-    }
-       if(read(connfd, sendBuff, sizeof(sendBuff)-1,0>0){
+        else if(pid>0) { // Le processus père
+            close(sockfd);
+        }
+        else if(pid==0) { // Le processus fils
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-            puts("recv failed");
-    }
-          }
+            write(sockfd, sendBuff, strlen(sendBuff));
+               }
     if(n < 0)
     {
         printf("\n Read error \n");
     }
- 
-	  
     return 0;
 }
