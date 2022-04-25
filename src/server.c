@@ -78,13 +78,20 @@ int main(int argc, char *argv[])
     host_entry = gethostbyname(hostbuffer);
     checkHostEntry(host_entry);
   
-    // To convert an Internet network
-    // address into ASCII string
-    IPbuffer = inet_ntoa(*((struct in_addr*)
-                           host_entry->h_addr_list[0]));
-  
     printf("Hostname: %s\n", hostbuffer);
     printf("Host IP: %s", IPbuffer);
+        	close (sock);
+		read (nsock, buf, 20);
+ 
+              	printf("essai !!");
+ 
+                         printf("%s\n",inet_ntoa(adr_c.sin_addr)); 		
+ 
+               	printf("%s\n",buf); 
+ 
+		close (nsock);
+ 
+		exit(0);
        
     }
 }
