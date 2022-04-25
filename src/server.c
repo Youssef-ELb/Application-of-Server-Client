@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 {
     // La socket serveur
     int listenfd = 0;
+    int n=0;
     // La socket client (récupérée avec accept())
     int connfd = 0;
     // La structure avec les informations du serveur
@@ -62,21 +63,24 @@ int main(int argc, char *argv[])
         else if(pid==0) { // Le processus fils
             snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
             write(connfd, sendBuff, strlen(sendBuff));
+            
             close(connfd);
         }
-        if(read(listenfd, recvBuff, sizeof(recvBuff)-1)) > 0)
-        {
+          while ( (n = read(listenfd, recvBuff, sizeof(recvBuff)-1)) > 0)
+    {
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
         if(fputs(recvBuff, stdout) == EOF)
         {
             printf("\n Error : Fputs error\n");
         }
-        }
+    }
     
-       if(n < 0)
-     {
+    if(n < 0)
+    {
         printf("\n Read error \n");
     }
+
+    return 0;
     }
 }
