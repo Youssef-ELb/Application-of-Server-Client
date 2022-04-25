@@ -65,33 +65,6 @@ int main(int argc, char *argv[])
             
             close(connfd);
         }
-        char hostbuffer[256];
-    char *IPbuffer;
-    struct hostent *host_entry;
-    int hostname;
-  
-    // To retrieve hostname
-    hostname = gethostname(hostbuffer, sizeof(hostbuffer));
-    checkHostName(hostname);
-  
-    // To retrieve host information
-    host_entry = gethostbyname(hostbuffer);
-    checkHostEntry(host_entry);
-  
-    printf("Hostname: %s\n", hostbuffer);
-    printf("Host IP: %s", IPbuffer);
-        	close (sock);
-		read (nsock, buf, 20);
- 
-              	printf("essai !!");
- 
-                         printf("%s\n",inet_ntoa(adr_c.sin_addr)); 		
- 
-               	printf("%s\n",buf); 
- 
-		close (nsock);
- 
-		exit(0);
        
     }
 }
