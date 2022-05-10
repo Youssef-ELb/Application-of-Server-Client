@@ -61,9 +61,14 @@ int main(int argc, char *argv[])
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
     {
+    	//Envoyer le hostname vers le server
         sendBuff[n] = 0;
+        //copier le hostname dans notre buffer sendBuff
         snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
+        //Envoyer le contenu de sendBudd avec la socket
         write(sockfd, sendBuff, sizeof(sendBuff));
+        
+        //attiendre la connexion
         close(sendBuff);
     }
     
