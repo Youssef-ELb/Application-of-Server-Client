@@ -1,4 +1,4 @@
-#include <sys/socket.h>
+ #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     // Le buffer pour recevoir la réponse du serveur
     char recvBuff[1024] = {0};
     char sendBuff[1024] = {0};
+    
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
     
@@ -54,24 +55,17 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
-    int pid = 0;
-	    // Récupération du nom de la machine
+    // Récupération du nom de la machine
     char hostname[128];
     gethostname(hostname, sizeof hostname);
-
     // Lecture des informations envoyées par le serveur sur la socket
     while (1)
-    { 
-	    if((pid=fork())==-1) {
-            printf("erreur\n");
-            close(sockfd);
-        }
-        else if(pid>0) { // Le processus père
-            close(sockfd);
-        }
-        else if(pid==0) { // Le processus fils
-            snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-            write(sockfd, sendBuff, strlen(sendBuff));
-               }
-  close(sockfd);
+    {
+        sendBuff[n] = 0;
+        snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
+        write(sockfd, sendBuff, sizeof(sendBuff));
+        close(sendBuff);
+    }
+    
+    return 0;
 }
