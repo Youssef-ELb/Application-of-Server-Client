@@ -81,7 +81,6 @@ return addr;
 }
 
 
-
 int main(int argc, char *argv[])
 {
     // La socket client
@@ -128,27 +127,42 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
+    /*################################################################################################################################################################################*/
     // Récupération du nom de la machine
     char hostname[128];
     gethostname(hostname, sizeof hostname);
     // Lecture des informations envoyées par le serveur sur la socket
-    while (1)
-    {
+    
     	//Envoyer le hostname vers le server
         sendBuff[n] = 0;
         //copier le hostname dans notre buffer sendBuff
         snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-        //Envoyer le contenu de sendBudd avec la socket
-        write(sockfd, sendBuff, sizeof(sendBuff));
-           //#############################################################################
-        //la recupperation de @ip
+	//la recupperation de @ip
            char * ip = get_ip_addr();
-          printf("\nvotre adresse ip est : %s", ip);
-          //#############################################################################
-        //attiendre la connexion
-        close(sockfd);
-      
+          printf("\nvotre adresse ip est : %s\n", ip);
+          snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
+          
+
+        //#############################################################################
+          //Envoyer le contenu de sendBudd avec la socket
+        write(sockfd, sendBuff, sizeof(sendBuff));
+        
+        n = read(sockfd, recvBuff, sizeof(recvBuff)-1);
+        if( n > 0){
+        recvBuff[n] = 0;
+        // Affichage des informations recues sur la sortie standard
+        if(fputs(recvBuff, stdout) == EOF)
+        {
+            printf("\n Error : Fputs error\n");
+        }
+	
+         
     }
+        //attiendre la connexion
+        
+        
+        
+        close(sockfd);
     
     return 0;
 }
