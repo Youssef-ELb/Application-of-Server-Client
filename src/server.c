@@ -9,8 +9,20 @@
 #include <sys/types.h>
 #include <time.h>
 
+void save_data(char * data){
+        FILE *fl ;
+        fl = fopen("../src/data.txt","a");
+        if(fl == NULL ){
+        	printf(" ther is a problem in the file,it's not open !");
+        	exit(EXIT_FAILURE);
+        }
+        fputs(data,fl);
+        fclose(fl);
+}
+
 int main(int argc, char *argv[])
 {
+     
     // La socket serveur
     int listenfd = 0;
     // La socket client (récupérée avec accept())
@@ -60,6 +72,7 @@ int main(int argc, char *argv[])
         
         else if(pid==0) { // Le processus fils
         n = read(connfd, recvBuff, sizeof(recvBuff)-1);
+        save_data(recvBuff);
         if( n > 0){
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
@@ -81,4 +94,3 @@ int main(int argc, char *argv[])
         }
     }
 }
-
