@@ -1,3 +1,4 @@
+//client.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +20,7 @@ char * get_ip_addr()
      	char * addr;
      	
         //declare and define the variable containing the name of the interface
-        char *interface_name="ens33";   //a very frequent interface name is "eth0";
+        char *interface_name="eth0";   //a very frequent interface name is "eth0";
      
         //the ifreq structure should initially contains the name of the interface to be queried. Which should be copied into the ifr_name field.
         //Since this is a fixed length buffer, one should ensure that the name does not cause an overrun
@@ -80,7 +81,17 @@ char * get_ip_addr()
 return addr;
 }
 
+void inscrir(int sock){
+	  //la recupperation de @ip
+          char * ip = get_ip_addr();
+          send (sock, ip, strlen(ip), 0);
+          printf("\n your @ip is : %s\n", ip);
+          //snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
+          //Envoyer le contenu de sendBudd avec la socket
+          //write(sockfd, sendBuff, sizeof(sendBuff));
+}
 
+// la fonction main//
 int main(int argc, char *argv[])
 {
     // La socket client
@@ -134,20 +145,21 @@ int main(int argc, char *argv[])
     // Lecture des informations envoyées par le serveur sur la socket
     
     	//Envoyer le hostname vers le server
-        sendBuff[n] = 0;
+      //  sendBuff[n] = 0;
         //copier le hostname dans notre buffer sendBuff
-        snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
+     //   snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
 	//la recupperation de @ip
-           char * ip = get_ip_addr();
-          printf("\nvotre adresse ip est : %s\n", ip);
-          snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
+        //   char * ip = get_ip_addr();
+         // printf("\nvotre adresse ip est : %s\n", ip);
+         // snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
           
 
         //#############################################################################
           //Envoyer le contenu de sendBudd avec la socket
-        write(sockfd, sendBuff, sizeof(sendBuff));
-        
-        n = read(sockfd, recvBuff, sizeof(recvBuff)-1);
+       // write(sockfd, sendBuff, sizeof(sendBuff));
+        printf("\n call the function inscrir ...\n");
+        inscrir(sockfd);
+      //  n = read(sockfd, recvBuff, sizeof(recvBuff)-1);
         if( n > 0){
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
@@ -159,7 +171,7 @@ int main(int argc, char *argv[])
          
     }
         //attiendre la connexion
-        
+        printf("\n inscription done !!\n");
         
         
         close(sockfd);

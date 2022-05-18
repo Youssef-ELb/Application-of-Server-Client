@@ -1,3 +1,4 @@
+//server.c
  #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -8,12 +9,13 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+// la fonctin save_data//
 
 void save_data(char * data){
         FILE *fl ;
         fl = fopen("../src/data.txt","a");
         if(fl == NULL ){
-        	printf(" ther is a problem in the file,it's not open !");
+        	printf(" ther is a problem in the file,the file is not opened !");
         	exit(EXIT_FAILURE);
         }
         fputs(data,fl);
@@ -71,7 +73,11 @@ int main(int argc, char *argv[])
         }
         
         else if(pid==0) { // Le processus fils
-        n = read(connfd, recvBuff, sizeof(recvBuff)-1);
+        //recv (sock, buffer, sizeof buffer, 0);
+        
+        recv (connfd, recvBuff, sizeof(recvBuff), 0);
+        printf(" vous avez recus : %s \n", recvBuff);
+       // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
         save_data(recvBuff);
         if( n > 0){
         recvBuff[n] = 0;
