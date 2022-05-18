@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
          // snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
           
 
-        //#############################################################################
+        //################################################
           //Envoyer le contenu de sendBudd avec la socket
        // write(sockfd, sendBuff, sizeof(sendBuff));
         printf("\n call the function inscrir ...\n");
