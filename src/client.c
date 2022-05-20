@@ -11,16 +11,19 @@
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#define SA struct sockaddr
+
+//--------------------------------------------------------------
+//--------------------------------------------------------------
 
 char * get_ip_addr()
 {
- 
      //create an ifreq struct for passing data in and out of ioctl
         struct ifreq my_struct;
      	char * addr;
      	
         //declare and define the variable containing the name of the interface
-        char *interface_name="eth0";   //a very frequent interface name is "eth0";
+        char *interface_name="ens33";   //a very frequent interface name is "eth0";
      
         //the ifreq structure should initially contains the name of the interface to be queried. Which should be copied into the ifr_name field.
         //Since this is a fixed length buffer, one should ensure that the name does not cause an overrun
@@ -81,6 +84,9 @@ char * get_ip_addr()
 return addr;
 }
 
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+
 void inscrir(int sock){
 	  //la recupperation de @ip
           char * ip = get_ip_addr();
@@ -91,9 +97,95 @@ void inscrir(int sock){
           //write(sockfd, sendBuff, sizeof(sendBuff));
 }
 
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+
+void receivefile(int * file)
+{	
+    char *ip = "192.168.13.133";
+    int port = 7001;
+    int e;
+    int n;
+    
+    int sendsock, connfd, len;
+    struct sockaddr_in servaddr, cli;
+   
+    // socket create and verification
+    sendsock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sendsock == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
+    }
+    else
+        printf("Socket successfully created..\n");
+    bzero(&servaddr, sizeof(servaddr));
+   
+    // assign IP, PORT
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(7001);
+   
+    // Binding newly created socket to given IP and verification
+    if ((bind(sendsock, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+        printf("socket bind failed...\n");
+        exit(0);
+    }
+    else
+        printf("Socket successfully binded..\n");
+   
+    // Now server is ready to listen and verification
+    if ((listen(sendsock, 5)) != 0) {
+        printf("Listen failed...\n");
+        exit(0);
+    }
+    else
+        printf("Server listening..\n");
+    len = sizeof(cli);
+   
+    // Accept the data packet from client and verification
+    connfd = accept(sendsock, (SA*)&cli, &len);
+    if (connfd < 0) {
+        printf("server accept failed...\n");
+        exit(0);
+    }
+    else{
+        printf("server accept the client...\n");
+   }
+   
+    FILE *fl;
+   // char *filename = "file2.txt";
+    char buffer[48000];
+
+    fl = fopen(file, "w");
+    if(fl==NULL)
+    {
+        perror("[-]Error in creating file.");
+        exit(1);
+    }
+    while(1)
+    {
+        n = recv(sendsock, buffer, 48000, 0);
+        if(n<=0)
+        {
+            break;
+            return;
+        }
+        fprintf(fl, "%s", buffer);
+        bzero(buffer, 48000);
+    }
+
+      close(sendsock);
+}
+
+  ///#######################################################*/
+ /////#######################################################*/
+ /////#######################################################*/
 // la fonction main//
+
 int main(int argc, char *argv[])
 {
+
+    char *recv = "../src/recv.txt";
     // La socket client
     int sockfd = 0;
     int  n = 0;
@@ -138,7 +230,7 @@ int main(int argc, char *argv[])
         printf("\n Error : Connect Failed \n");
         return 1;
     }
-    /*################################################################################################################################################################################*/
+    /////###############*/
     // Récupération du nom de la machine
     char hostname[128];
     gethostname(hostname, sizeof hostname);
@@ -153,12 +245,13 @@ int main(int argc, char *argv[])
          // printf("\nvotre adresse ip est : %s\n", ip);
          // snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
           
-
         //################################################
           //Envoyer le contenu de sendBudd avec la socket
        // write(sockfd, sendBuff, sizeof(sendBuff));
         printf("\n call the function inscrir ...\n");
         inscrir(sockfd);
+         printf("\n call the function recv ...\n");
+        receivefile(recv);
       //  n = read(sockfd, recvBuff, sizeof(recvBuff)-1);
         if( n > 0){
         recvBuff[n] = 0;

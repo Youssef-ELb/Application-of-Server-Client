@@ -9,6 +9,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+#define SA struct sockaddr
+
 // la fonctin save_data//
 
 void save_data(char * data){
@@ -19,12 +21,78 @@ void save_data(char * data){
         	exit(EXIT_FAILURE);
         }
         fputs(data,fl);
+        fputs("\n",fl);
         fclose(fl);
 }
 
+//--------------------------------------------------
+
+void sendfile(char *ip)
+{
+    FILE *sendfile;
+
+    int port = 7001;
+    int e;
+    char * data[48000];
+    char * fl;
+    
+    int sockfd, connfd;
+    struct sockaddr_in servaddr, cli;
+   
+    // socket create and verification
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
+    }
+    else
+        printf("Socket successfully created..\n");
+    bzero(&servaddr, sizeof(servaddr));
+   
+    // assign IP, PORT
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = inet_addr("192.168.13.133");
+    servaddr.sin_port = htons(7001);
+   
+    // connect the client socket to server socket
+    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+        printf("connection with the server failed...\n");
+        exit(0);
+    }
+    else
+        printf("connected to the server..\n");
+  
+   
+    fl = fopen("../src/send.txt", "r");
+    if(fl == NULL)
+     {
+         perror("[-]Error in reading file.");
+         exit(1);
+     }
+  
+    while(fgets(data, 48000, fl)!=NULL)
+    {
+        if(send(sockfd, data, sizeof(data), 0)== -1)
+        {
+            perror("[-] Error in sendung data");
+            exit(1);
+        }
+        bzero(data, 48000);
+        
+    }
+     close(fl);
+     // close the socket
+    close(sockfd);
+}
+
+//--------------------------------------------------
+
 int main(int argc, char *argv[])
 {
-     
+    char *ip = "192.168.13.133";
+    
+    char *fl ;
+    fl = fopen("../src/data.txt","a");
     // La socket serveur
     int listenfd = 0;
     // La socket client (récupérée avec accept())
@@ -79,6 +147,9 @@ int main(int argc, char *argv[])
         printf(" vous avez recus : %s \n", recvBuff);
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
         save_data(recvBuff);
+        
+        sendfile(ip);//********************--*
+        
         if( n > 0){
            // snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
            // write(connfd, sendBuff, strlen(sendBuff));
@@ -95,13 +166,11 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
 
-
 	close(connfd);
 
 	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu !");
          write(connfd, sendBuff, sizeof(sendBuff));
          
-
     }
     
     if(n < 0)
