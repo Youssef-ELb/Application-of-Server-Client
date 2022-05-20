@@ -59,12 +59,22 @@ int main(int argc, char *argv[])
         else if(pid==0) { // Le processus fils
         n = read(connfd, recvBuff, sizeof(recvBuff)-1);
         if( n > 0){
+           // snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
+           // write(connfd, sendBuff, strlen(sendBuff));
+            
+          
+        
+          while ( (n = recv(connfd, recvBuff, sizeof(recvBuff)-1), 0) > 0)
+    {
+
         recvBuff[n] = 0;
         // Affichage des informations recues sur la sortie standard
         if(fputs(recvBuff, stdout) == EOF)
         {
             printf("\n Error : Fputs error\n");
         }
+
+	close(connfd);
     }
     
     if(n < 0)
