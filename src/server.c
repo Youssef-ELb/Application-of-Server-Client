@@ -1,3 +1,4 @@
+//server.c
  #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -8,9 +9,22 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+// la fonctin save_data//
+
+void save_data(char * data){
+        FILE *fl ;
+        fl = fopen("../src/data.txt","a");
+        if(fl == NULL ){
+        	printf(" ther is a problem in the file,the file is not opened !");
+        	exit(EXIT_FAILURE);
+        }
+        fputs(data,fl);
+        fclose(fl);
+}
 
 int main(int argc, char *argv[])
 {
+     
     // La socket serveur
     int listenfd = 0;
     // La socket client (récupérée avec accept())
@@ -19,8 +33,8 @@ int main(int argc, char *argv[])
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
     // Le buffer pour envoyer les données
-    char sendBuff[1025] = {0};
-    char recvBuff[1025] = {0};
+    char sendBuff[1024] = {0};
+    char recvBuff[1024] = {0};
     // Création de la socket serveur
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     
@@ -33,20 +47,22 @@ int main(int argc, char *argv[])
     
     // Association de la socket avec la structure sockaddr
     bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
-    
+    printf("Blinding !\n");
     //La socket écoute pour des connexions
     listen(listenfd, 10);
+    printf("listening ... !\n");
     
-    // Récupération du nom de la machine
+    /* Récupération du nom de la machine
     char hostname[128];
     gethostname(hostname, sizeof hostname);
+    */
     
     int pid = 0;
     while(1)
     {
         // Accepte la connexion d'une socket client
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-        
+    	printf("Accepting !\n");    
         // Exécution d'un fork pour gérer la connexion
         if((pid=fork())==-1) {
             printf("erreur\n");
@@ -57,14 +73,19 @@ int main(int argc, char *argv[])
         }
         
         else if(pid==0) { // Le processus fils
-        n = read(connfd, recvBuff, sizeof(recvBuff)-1);
+        //recv (sock, buffer, sizeof buffer, 0);
+        
+        recv (connfd, recvBuff, sizeof(recvBuff), 0);
+        printf(" vous avez recus : %s \n", recvBuff);
+       // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
+        save_data(recvBuff);
         if( n > 0){
            // snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
            // write(connfd, sendBuff, strlen(sendBuff));
             
           
         
-          while ( (n = recv(connfd, recvBuff, sizeof(recvBuff)-1), 0) > 0)
+          while ( n = recv(connfd, recvBuff, sizeof(recvBuff)-1, 0) > 0)
     {
 
         recvBuff[n] = 0;
@@ -74,7 +95,13 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
 
+
 	close(connfd);
+
+	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu !");
+         write(connfd, sendBuff, sizeof(sendBuff));
+         
+
     }
     
     if(n < 0)
@@ -85,5 +112,4 @@ int main(int argc, char *argv[])
             close(connfd);
         }
     }
-}
-
+}}
