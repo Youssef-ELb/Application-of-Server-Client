@@ -20,7 +20,7 @@ char * get_ip_addr()
      	char * addr;
      	
         //declare and define the variable containing the name of the interface
-        char *interface_name="eth0";   //a very frequent interface name is "eth0";
+        char *interface_name="ens33";   //a very frequent interface name is "eth0";
      
         //the ifreq structure should initially contains the name of the interface to be queried. Which should be copied into the ifr_name field.
         //Since this is a fixed length buffer, one should ensure that the name does not cause an overrun
