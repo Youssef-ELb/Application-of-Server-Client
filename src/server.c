@@ -24,6 +24,39 @@ void save_data(char * data){
         fputs("\n",fl);
         fclose(fl);
 }
+char * loadFile(char *name, char  *fileBuff){
+	/* la foinction loadfile prend en arg, le nom de fichier,
+	* et le tableau qui va contient le contenu de ce fichier
+	*
+		*/
+	   FILE *pFile = NULL;
+	   size_t result;
+           long lSize;
+	 //   bzero(fileBuff, sizeof(fileBuff));
+	    char c;
+	    pFile=fopen(name,"r");
+	     // obtain file size:
+	  fseek (pFile , 0 , SEEK_END);
+	  lSize = ftell (pFile);
+	  rewind (pFile);
+
+	    // allocate memory to contain the whole file:
+	  fileBuff = (char*) malloc (sizeof(char)*lSize);
+	  if (fileBuff == NULL) {fputs ("Memory error",stderr); exit (2);}
+	printf("lire le fichier en succés !\n");
+	  // copy the file into the buffer:
+	  result = fread (fileBuff,1,lSize,pFile);
+	  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+	  //else{fputs ("File error",stderr); exit (1);}
+	  //lire le contenu de fichier :)
+	  printf("le contenu est : %s\n", fileBuff);
+
+	 
+	  // terminate
+	  fclose (pFile);
+	  free (fileBuff);  
+return fileBuff;
+}
 
 //--------------------------------------------------
 
@@ -98,6 +131,8 @@ int main(int argc, char *argv[])
     // La socket client (récupérée avec accept())
     int connfd = 0;
     int n=0;
+    //déclaration de fichier qui va contient le contenu de fichier
+    char * fi                                                                                 le[48000];
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
     // Le buffer pour envoyer les données
@@ -148,8 +183,18 @@ int main(int argc, char *argv[])
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
         save_data(recvBuff);
         
+
         sendfile(ip);//********************--*
         
+
+        //lire le contenu de fichier 
+      //  loadFile("../src/data.txt", file);
+         printf("tout est bien !");
+         file = loadFile("../src/data.txt", file);
+         printf("your data is :::: %s \n", file);
+         
+    }
+
         if( n > 0){
            // snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
            // write(connfd, sendBuff, strlen(sendBuff));
@@ -171,7 +216,6 @@ int main(int argc, char *argv[])
 	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu !");
          write(connfd, sendBuff, sizeof(sendBuff));
          
-    }
     
     if(n < 0)
     {
