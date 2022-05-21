@@ -24,6 +24,7 @@ void save_data(char * data){
         fputs("\n",fl);
         fclose(fl);
 }
+
 char * loadFile(char *name, char  *fileBuff){
 	/* la foinction loadfile prend en arg, le nom de fichier,
 	* et le tableau qui va contient le contenu de ce fichier
@@ -36,9 +37,9 @@ char * loadFile(char *name, char  *fileBuff){
 	    char c;
 	    pFile=fopen(name,"r");
 	     // obtain file size:
-	  fseek (pFile , 0 , SEEK_END);
-	  lSize = ftell (pFile);
-	  rewind (pFile);
+	   fseek (pFile , 0 , SEEK_END);
+	   lSize = ftell (pFile);
+	   rewind (pFile);
 
 	    // allocate memory to contain the whole file:
 	  fileBuff = (char*) malloc (sizeof(char)*lSize);
@@ -67,7 +68,7 @@ void sendfile(char *ip)
     int port = 7001;
     int e;
     char * data[48000];
-    char * fl;
+    FILE * fl;
     
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
@@ -113,7 +114,7 @@ void sendfile(char *ip)
         bzero(data, 48000);
         
     }
-     close(fl);
+     fclose(fl);
      // close the socket
     close(sockfd);
 }
@@ -132,7 +133,7 @@ int main(int argc, char *argv[])
     int connfd = 0;
     int n=0;
     //déclaration de fichier qui va contient le contenu de fichier
-    char * fi                                                                                 le[48000];
+    char * file[48000];
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
     // Le buffer pour envoyer les données
@@ -184,14 +185,21 @@ int main(int argc, char *argv[])
         save_data(recvBuff);
         
 
-        sendfile(ip);//********************--*
+     
+        
+        //********************--*
         
 
         //lire le contenu de fichier 
       //  loadFile("../src/data.txt", file);
          printf("tout est bien !");
-         file = loadFile("../src/data.txt", file);
+         strcpy(file, loadFile("data.txt", file));
          printf("your data is :::: %s \n", file);
+        
+           sendfile(ip);
+        
+        
+        
          
     }
 
@@ -211,11 +219,10 @@ int main(int argc, char *argv[])
             printf("\n Error : Fputs error\n");
         }
 
-	close(connfd);
 
 	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu !");
          write(connfd, sendBuff, sizeof(sendBuff));
-         
+         close(connfd);
     
     if(n < 0)
     {
