@@ -123,7 +123,7 @@ void receivefile(int * file)
     // assign IP, PORT
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(7001);
+    servaddr.sin_port = htons(port);
    
     // Binding newly created socket to given IP and verification
     if ((bind(sendsock, (SA*)&servaddr, sizeof(servaddr))) != 0) {

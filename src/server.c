@@ -72,15 +72,16 @@ void sendfile(char *ip)
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = inet_addr("192.168.13.133");
     servaddr.sin_port = htons(7001);
-   
+   printf("la socket de server est avant : %d", sockfd );
     // connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
         printf("connection with the server failed...\n");
+             printf("la socket de server est au sein : %d", sockfd );
         exit(0);
     }
     else
         printf("connected to the server..\n");
-  
+     printf("la socket de server est apres : %d", sockfd );
    
     fl = fopen("../src/send.txt", "r");
     if(fl == NULL)
