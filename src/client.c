@@ -133,7 +133,7 @@ void receivefile()
     else
         printf("Socket successfully binded..\n");
    
-    // Now server is ready to listen and verification
+    // Now server is ready to listen and verification ///
     if ((listen(sendsock, 5)) != 0) {
         printf("Listen failed...\n");
         exit(0);
