@@ -31,31 +31,16 @@ char * loadFile(char *name, char  *fileBuff){
 	*
 		*/
 	   FILE *pFile = NULL;
-	   size_t result;
-           long lSize;
-	 //   bzero(fileBuff, sizeof(fileBuff));
-	    char c;
-	    pFile=fopen(name,"r");
-	     // obtain file size:
-	   fseek (pFile , 0 , SEEK_END);
-	   lSize = ftell (pFile);
-	   rewind (pFile);
-
-	    // allocate memory to contain the whole file:
-	  fileBuff = (char*) malloc (sizeof(char)*lSize);
-	  if (fileBuff == NULL) {fputs ("Memory error",stderr); exit (2);}
-	printf("lire le fichier en succés !\n");
-	  // copy the file into the buffer:
-	  result = fread (fileBuff,1,lSize,pFile);
-	  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
-	  //else{fputs ("File error",stderr); exit (1);}
-	  //lire le contenu de fichier :)
-	  printf("le contenu est : %s\n", fileBuff);
-
+	 char c;
+	 int i = 0;
+	 pFile = fopen(name, "rt");
+	 while((c =fgetc(pFile)) != EOF){
+	 fileBuff[i] = c ;
+	 i++;
 	 
+	 }
 	  // terminate
 	  fclose (pFile);
-	  free (fileBuff);  
 return fileBuff;
 }
 
@@ -194,21 +179,12 @@ int main(int argc, char *argv[])
       //  loadFile("../src/data.txt", file);
          printf("tout est bien !");
          strcpy(file, loadFile("data.txt", file));
-         printf("your data is :::: %s \n", file);
-        
+         printf("your data is : %s \n", file);
            sendfile(ip);
         
-        
-        
-         
     }
 
         if( n > 0){
-           // snprintf(sendBuff, sizeof(sendBuff), "%s\n", hostname);
-           // write(connfd, sendBuff, strlen(sendBuff));
-            
-          
-        
           while ( n = recv(connfd, recvBuff, sizeof(recvBuff)-1, 0) > 0)
     {
 
