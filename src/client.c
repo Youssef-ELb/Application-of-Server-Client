@@ -100,9 +100,9 @@ void inscrir(int sock){
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 
-void receivefile(int * file)
+void receivefile()
 {	
-    char *ip = "192.168.13.133";
+    //char *ip = "192.168.13.133";
     int port = 7001;
     int e;
     int n;
@@ -154,27 +154,25 @@ void receivefile(int * file)
    
     FILE *fl;
    // char *filename = "file2.txt";
-    char buffer[48000];
+    char * buffer[48000];
 
-    fl = fopen(file, "w");
-    if(fl==NULL)
+    //fl = fopen(file, "w");
+   /* if(fl==NULL)
     {
         perror("[-]Error in creating file.");
         exit(1);
-    }
-    while(1)
-    {
-        n = recv(sendsock, buffer, 48000, 0);
-        if(n<=0)
+    }*/
+   	 n = recv(sendsock, buffer, 48000, 0);
+        if(n <=0)
         {
-            break;
-            return;
-        }
-        fprintf(fl, "%s", buffer);
-        bzero(buffer, 48000);
-    }
+       	 perror("[-]Error in creating file.");
+        	exit(1);
+   	 }
+      printf("bien recu : %s", buffer);
+   
 
-      close(sendsock);
+      //close (sendsock);
+	
 }
 
   ///#######################################################*/
@@ -251,7 +249,12 @@ int main(int argc, char *argv[])
         printf("\n call the function inscrir ...\n");
         inscrir(sockfd);
          printf("\n call the function recv ...\n");
-        receivefile(recv);
+         
+         
+        receivefile();
+        
+        
+        
       //  n = read(sockfd, recvBuff, sizeof(recvBuff)-1);
         if( n > 0){
         recvBuff[n] = 0;

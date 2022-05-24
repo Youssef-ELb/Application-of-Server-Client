@@ -46,15 +46,11 @@ return fileBuff;
 
 //--------------------------------------------------
 
-void sendfile(char *ip)
+void sendfile()
 {
-    FILE *sendfile;
-
     int port = 7001;
     int e;
     char * data[48000];
-    FILE * fl;
-    
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
    
@@ -70,37 +66,32 @@ void sendfile(char *ip)
    
     // assign IP, PORT
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("192.168.13.133");
-    servaddr.sin_port = htons(7001);
-   printf("la socket de server est avant : %d", sockfd );
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr.sin_port = htons(port);
+
     // connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
         printf("connection with the server failed...\n");
-             printf("la socket de server est au sein : %d", sockfd );
         exit(0);
     }
     else
         printf("connected to the server..\n");
-     printf("la socket de server est apres : %d", sockfd );
-   
-    fl = fopen("../src/send.txt", "r");
-    if(fl == NULL)
-     {
-         perror("[-]Error in reading file.");
-         exit(1);
-     }
-  
-    while(fgets(data, 48000, fl)!=NULL)
-    {
-        if(send(sockfd, data, sizeof(data), 0)== -1)
-        {
-            perror("[-] Error in sendung data");
-            exit(1);
-        }
-        bzero(data, 48000);
-        
-    }
-     fclose(fl);
+
+        //lire le contenu de fichier 
+      //  loadFile("../src/data.txt", file);
+         printf("tout est bien !");
+         strcpy(data, loadFile("data.txt", data));
+         printf("your data is : %s \n", data);
+         //envoyer les données avec send
+     	 int  n = send (sockfd, data, strlen(data), 0);
+     	 if(n <= 0)
+   		 {
+        		perror("[-]Error in creating file.");
+       			 exit(1);
+  		  }
+  		  
+         printf("\n vous avez envoyer : %s\n", data);
+         
      // close the socket
     close(sockfd);
 }
@@ -109,7 +100,7 @@ void sendfile(char *ip)
 
 int main(int argc, char *argv[])
 {
-    char *ip = "192.168.13.133";
+    //char *ip = "192.168.13.133";
     
     char *fl ;
     fl = fopen("../src/data.txt","a");
@@ -170,19 +161,13 @@ int main(int argc, char *argv[])
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
         save_data(recvBuff);
         
+        sendfile();
 
      
         
         //********************--*
         
 
-        //lire le contenu de fichier 
-      //  loadFile("../src/data.txt", file);
-         printf("tout est bien !");
-         strcpy(file, loadFile("data.txt", file));
-         printf("your data is : %s \n", file);
-           sendfile(ip);
-        
     }
 
         if( n > 0){
