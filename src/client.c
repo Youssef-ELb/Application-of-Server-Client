@@ -116,9 +116,10 @@ void receivefile()
         printf("socket creation failed...\n");
         exit(0);
     }
-    else
-        printf("Socket successfully created..\n");
+   
+    printf("Socket created ...\n");        
     bzero(&servaddr, sizeof(servaddr));
+    bzero(&cli, sizeof(cli));
    
     // assign IP, PORT
     servaddr.sin_family = AF_INET;
@@ -130,48 +131,49 @@ void receivefile()
         printf("socket bind failed...\n");
         exit(0);
     }
-    else
-        printf("Socket successfully binded..\n");
+    
+    printf("Binded...\n");
    
     // Now server is ready to listen and verification ///
     if ((listen(sendsock, 5)) != 0) {
         printf("Listen failed...\n");
         exit(0);
     }
-    else
-        printf("Server listening..\n");
+     printf("Listening...\n");
     len = sizeof(cli);
    
     // Accept the data packet from client and verification
-    connfd = accept(sendsock, (SA*)&cli, &len);
+    connfd = accept(sendsock, (SA*)&servaddr, &len);
     if (connfd < 0) {
-        printf("server accept failed...\n");
+        printf("Accept failed...\n");
         exit(0);
     }
-    else{
-        printf("server accept the client...\n");
-   }
+    
+    printf("Accepted...\n");
    
+   printf("you arrive here : \n");
     FILE *fl;
    // char *filename = "file2.txt";
     char * buffer[48000];
-
+     bzero(buffer, sizeof(buffer));
+	
     //fl = fopen(file, "w");
    /* if(fl==NULL)
     {
         perror("[-]Error in creating file.");
         exit(1);
     }*/
-   	 n = recv(sendsock, buffer, 48000, 0);
-        if(n <=0)
+   	n = recv(sendsock, buffer, 48000, 0);
+   	printf("la socket de transefer le ficher est : %d  et le buffer est :%s \n", n, buffer );
+        if(n < 0)
         {
-       	 perror("[-]Error in creating file.");
+       	 perror("Error de recevoir le contenu de fichier ! \n");
         	exit(1);
    	 }
-      printf("bien recu : %s", buffer);
+      printf("bien reçu : %s", buffer);
    
 
-      //close (sendsock);
+      close (sendsock);
 	
 }
 
@@ -250,8 +252,7 @@ int main(int argc, char *argv[])
         inscrir(sockfd);
          printf("\n call the function recv ...\n");
          
-         
-        receivefile();
+       	 receivefile();
         
         
         

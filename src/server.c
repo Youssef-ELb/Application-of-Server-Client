@@ -77,24 +77,21 @@ void sendfile()
     }
     else
         printf("connected to the server..\n");
-
+	 bzero(&data, sizeof(data));
         //lire le contenu de fichier 
-      //  loadFile("../src/data.txt", file);
-         printf("tout est bien !");
          strcpy(data, loadFile("data.txt", data));
          printf("your data is : %s \n", data);
          //envoyer les données avec send
      	 int  n = send (sockfd, data, strlen(data), 0);
-     	 if(n <= 0)
-   		 {
-        		perror("[-]Error in creating file.");
-       			 exit(1);
-  		  }
+     	 if(n < 0) {
+        	perror("Error in creating file.");
+       		 exit(1);
+  	}
   		  
-         printf("\n vous avez envoyer : %s\n", data);
-         
+         printf("\n vous avez envoyer : %s \n", data);
+         //bzero(&data, sizeof(data));
      // close the socket
-    close(sockfd);
+    	close(sockfd);
 }
 
 //--------------------------------------------------
@@ -172,7 +169,7 @@ int main(int argc, char *argv[])
     }
 
         if( n > 0){
-          while ( n = recv(connfd, recvBuff, sizeof(recvBuff)-1, 0) > 0)
+          while ( (n = recv(connfd, recvBuff, sizeof(recvBuff)-1, 0)) > 0)
     {
 
         recvBuff[n] = 0;
