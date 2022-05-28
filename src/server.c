@@ -1,3 +1,17 @@
+/***********************************************************************************
+ *
+ * Author: mouhssine el idrissi, youssef el bab
+ * Professor: Dr. Briffaut Jeremy, 
+ * Creation Date: 02 Mars 2022
+ * Due Date: 09 Juin 2022
+ * Assignment: server client application
+ * Filename: server.c
+ * Purpose: allow a server to get scan all the information of client,get his adress IP,
+ send file and excute them.
+ * compile: make server
+ * Run: ./server
+ *
+ **********************************************************************************/ 
 //server.c
  #include <sys/socket.h>
 #include <netinet/in.h>
@@ -11,9 +25,16 @@
 #include <time.h>
 #define SA struct sockaddr
 
-// la fonctin save_data//
-
+/********************************************************************************
+*
+* fonction "save_data" permet de sauvegarder une donnée "Data" dans un fichier situé 
+* situé dans "../src/data.txt".
+* @param; char * data: c'est notre donné qui on va sauvegadée
+*
+*
+*********************************************************************************/
 void save_data(char * data){
+	
         FILE *fl ;
         fl = fopen("../src/data.txt","a");
         if(fl == NULL ){
@@ -25,11 +46,17 @@ void save_data(char * data){
         fclose(fl);
 }
 
+
+/***************************************************************************
+*
+* la fonction "loadFile" permet de récupérer le contenu d'un fichier
+* avec le nom "name" et stocké le résultat dans "fileBuff".
+* @param; char * name: référencier sur le nom de fichier qu'on veut récupérer leur données.
+* @param; char * filebuff: c'est un variable qui va contenir le contenu de fichier avec le nom "name".
+* @return: elle returne un char * , qui contient le contenu de fichier.
+*
+***************************************************************************/
 char * loadFile(char *name, char  *fileBuff){
-	/* la foinction loadfile prend en arg, le nom de fichier,
-	* et le tableau qui va contient le contenu de ce fichier
-	*
-		*/
 	   FILE *pFile = NULL;
 	 char c;
 	 int i = 0;
@@ -44,7 +71,13 @@ char * loadFile(char *name, char  *fileBuff){
 return fileBuff;
 }
 
-//--------------------------------------------------
+/********************************************************************************
+*
+* la fonction "sendFile" qui permet d'envoyer le contenu d'un fichier vers le client.
+*
+*
+*
+*********************************************************************************/
 
 void sendfile()
 {
@@ -98,7 +131,6 @@ void sendfile()
 
 int main(int argc, char *argv[])
 {
-    //char *ip = "192.168.13.133";
     
     char *fl ;
     fl = fopen("../src/data.txt","a");
@@ -161,10 +193,6 @@ int main(int argc, char *argv[])
         
         sendfile();
 
-     
-        
-        //********************--*
-        
 
     }
 

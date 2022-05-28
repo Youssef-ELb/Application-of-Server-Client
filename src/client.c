@@ -1,3 +1,17 @@
+/***********************************************************************************
+ *
+ * Author: mouhssine el idrissi, youssef el bab
+ * Professor: Dr. Briffaut Jeremy, 
+ * Creation Date: 02 Mars 2022
+ * Due Date: 09 Juin 2022
+ * Assignment: server client application
+ * Filename: client.c
+ * Purpose: allow a server to get scan all the information of client,get his adress IP,
+ send file and excute them.
+ * compile: make client
+ * Run: ./client
+ *
+ **********************************************************************************/ 
 //client.c
 #include <stdio.h>
 #include <stdlib.h>
