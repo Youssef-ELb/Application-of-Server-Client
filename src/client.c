@@ -9,7 +9,7 @@
  * Purpose: allow a server to get scan all the information of client,get his adress IP,
  send file and excute them.
  * compile: make client
- * Run: ./client
+ * Run: ./client <@ip_server>
  *
  **********************************************************************************/ 
 //client.c
@@ -167,82 +167,15 @@ void receivefile()
     //  return;
     }
     
-<<<<<<< HEAD
     printf("bien recu : %s", buffer);
     fprintf(fp, "%s", buffer);
     bzero(buffer, 48000);
  // }
    printf("[+]Data written in the file successfully.\n");
-=======
-    int sendsock, connfd, len;
-    struct sockaddr_in servaddr, cli;
-   
-    // socket create and verification
-    sendsock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sendsock == -1) {
-        printf("socket creation failed...\n");
-        exit(0);
-    }
-   
-    printf("Socket created ...\n");        
-    bzero(&servaddr, sizeof(servaddr));
-    bzero(&cli, sizeof(cli));
-   
-    // assign IP, PORT
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(port);
-   
-    // Binding newly created socket to given IP and verification
-    if ((bind(sendsock, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("socket bind failed...\n");
-        exit(0);
-    }
-    
-    printf("Binded...\n");
-   
-    // Now server is ready to listen and verification ///
-    if ((listen(sendsock, 5)) != 0) {
-        printf("Listen failed...\n");
-        exit(0);
-    }
-     printf("Listening...\n");
-    len = sizeof(cli);
-   
-    // Accept the data packet from client and verification
-    connfd = accept(sendsock, (SA*)&servaddr, &len);
-    if (connfd < 0) {
-        printf("Accept failed...\n");
-        exit(0);
-    }
-    
-    printf("Accepted...\n");
-   
-   printf("you arrive here : \n");
-    FILE *fl;
-   // char *filename = "file2.txt";
-    char * buffer[48000];
-     bzero(buffer, sizeof(buffer));
-	
-    //fl = fopen(file, "w");
-   /* if(fl==NULL)
-    {
-        perror("[-]Error in creating file.");
-        exit(1);
-    }*/
-   	n = recv(sendsock, buffer, 48000, 0);
-   	printf("la socket de transefer le ficher est : %d  et le buffer est :%s \n", n, buffer );
-        if(n < 0)
-        {
-       	 perror("Error de recevoir le contenu de fichier ! \n");
-        	exit(1);
-   	 }
-      printf("bien reçu : %s", buffer);
    
 
-      close (sendsock);
+      close (new_sock);
 	
->>>>>>> da000c9a344b843d4bb66f3a529d361b0627a3d2
 }
 
   ///#######################################################*/

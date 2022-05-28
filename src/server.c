@@ -46,16 +46,16 @@ void save_data(char * data){
         fclose(fl);
 }
 
-
 /***************************************************************************
 *
 * la fonction "loadFile" permet de récupérer le contenu d'un fichier
 * avec le nom "name" et stocké le résultat dans "fileBuff".
 * @param; char * name: référencier sur le nom de fichier qu'on veut récupérer leur données.
-* @param; char * filebuff: c'est un variable qui va contenir le contenu de fichier avec le nom "name".
+* @param; char * filebuff: c'est une variable qui va contenir le contenu de fichier avec le nom "name".
 * @return: elle returne un char * , qui contient le contenu de fichier.
 *
 ***************************************************************************/
+
 char * loadFile(char *name, char  *fileBuff){
 	   FILE *pFile = NULL;
 	 char c;
@@ -88,7 +88,6 @@ void sendfile()
   int port = 7001;
   int e;
 
-<<<<<<< HEAD
   int sockfd;
   struct sockaddr_in server_addr;
   FILE *fp;
@@ -130,9 +129,9 @@ void sendfile()
     }
     bzero(data, 48000);
    printf(" end of if : \n");
-=======
-    // connect the client socket to server socket
-    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+
+  /*  // connect the client socket to server socket
+    if (connect(sockfd, (SA*)&server_addr, sizeof(server_addr)) != 0) {
         printf("connection with the server failed...\n");
         exit(0);
     }
@@ -143,7 +142,7 @@ void sendfile()
          strcpy(data, loadFile("data.txt", data));
          printf("your data is : %s \n", data);
          //envoyer les données avec send
-     	 int  n = send (sockfd, data, strlen(data), 0);
+     	 n = send (sockfd, data, strlen(data), 0);
      	 if(n < 0) {
         	perror("Error in creating file.");
        		 exit(1);
@@ -151,12 +150,15 @@ void sendfile()
   		  
          printf("\n vous avez envoyer : %s \n", data);
          //bzero(&data, sizeof(data));
-     // close the socket
+     // close the socket*/
     	close(sockfd);
->>>>>>> da000c9a344b843d4bb66f3a529d361b0627a3d2
+
 }
 
-//--------------------------------------------------
+///#######################################################*/
+ /////#######################################################*/
+ /////#######################################################*/
+// la fonction main//
 
 int main(int argc, char *argv[])
 {
@@ -220,12 +222,8 @@ int main(int argc, char *argv[])
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
       //  save_data(recvBuff);
         sendfile();
-<<<<<<< HEAD
         printf(" back from the call of function send file  \n ");
-=======
 
-
->>>>>>> da000c9a344b843d4bb66f3a529d361b0627a3d2
     }
 
         if( n > 0){
