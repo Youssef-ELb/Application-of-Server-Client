@@ -49,52 +49,53 @@ return fileBuff;
 void sendfile()
 {
 //
-    int port = 7001;
-    int e;
-    char * data[48000];
-    int sockfd, connfd;
-    struct sockaddr_in servaddr, cli;
-   
-    // socket create and verification
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1) {
-        printf("socket creation failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully created..\n");
-    bzero(&servaddr, sizeof(servaddr));
-   
-    // assign IP, PORT
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    servaddr.sin_port = htons(port);
+  int n;
+  char data[48000] = {0};
+  char *ip = "127.0.0.1";
+  int port = 7001;
+  int e;
 
-    // connect the client socket to server socket
-    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
-        printf("connection with the server failed...\n");
-        exit(0);
-    }
-    else
-        printf("connected to the server..\n");
+  int sockfd;
+  struct sockaddr_in server_addr;
+  FILE *fp;
+  char *filename = "send.txt";
 
-        //lire le contenu de fichier 
-      //  loadFile("../src/data.txt", file);
-         printf("tout est bien !");
-         strcpy(data, loadFile("data.txt", data));
-         printf("your data is : %s \n", data);
-         //envoyer les données avec send
-     	 int  n = send (sockfd, data, strlen(data), 0);
-     	 if(n <= 0)
-   		 {
-        		perror("[-]Error in creating file.");
-       			 exit(1);
-  		  }
-  		  
-         printf("\n vous avez envoyer : %s\n", data);
-         
-     // close the socket
-    close(sockfd);
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if(sockfd < 0) {
+    perror("[-]Error in socket");
+    exit(1);
+  }
+  printf("[+]Server socket created successfully.\n");
+
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = port;
+  server_addr.sin_addr.s_addr = inet_addr(ip);
+
+  e = connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+  if(e == -1) {
+    perror("[-]Error in socket");
+    exit(1);
+  }
+	printf("[+]Connected to Server.\n");
+
+  fp = fopen(filename, "r");
+  if (fp == NULL) {
+    perror("[-]Error in reading file.");
+    exit(1);
+  }
+
+  printf("tout est bien ! \n ");
+  strcpy(data, loadFile("send.txt", data));
+  printf("your data is :\n %s \n", data);
+  
+  //while(fgets(data, SIZE, fp) != NULL) {
+  printf(" if : \n");
+  if (send(sockfd , data, sizeof(data), 0) == -1) {
+      perror("[-]Error in sending file.");
+      exit(1);
+    }
+    bzero(data, 48000);
+   printf(" end of if : \n");
 }
 
 //--------------------------------------------------
@@ -160,15 +161,9 @@ int main(int argc, char *argv[])
         recv (connfd, recvBuff, sizeof(recvBuff), 0);
         printf(" vous avez recus : %s \n", recvBuff);
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
-        save_data(recvBuff);
-        
+      //  save_data(recvBuff);
         sendfile();
-
-     
-        
-        //********************--*
-        
-
+        printf(" back from the call of function send file  \n ");
     }
 
         if( n > 0){

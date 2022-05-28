@@ -23,7 +23,7 @@ char * get_ip_addr()
      	char * addr;
      	
         //declare and define the variable containing the name of the interface
-        char *interface_name="ens33";   //a very frequent interface name is "eth0";
+        char *interface_name="eth0";   //a very frequent interface name is "eth0";
      
         //the ifreq structure should initially contains the name of the interface to be queried. Which should be copied into the ifr_name field.
         //Since this is a fixed length buffer, one should ensure that the name does not cause an overrun
@@ -102,77 +102,62 @@ void inscrir(int sock){
 
 void receivefile()
 {	
-    //char *ip = "192.168.13.133";
-    int port = 7001;
-    int e;
-    int n;
+  int n;
+  FILE *fp;
+  char *filename = "recv.txt";
+  char buffer[48000];
+
+  char *ip = "127.0.0.1";
+  int port = 7001;
+  int e;
+
+  int sockfd, new_sock;
+  struct sockaddr_in server_addr, new_addr;
+  socklen_t addr_size;
+
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if(sockfd < 0) {
+    perror("[-]Error in socket");
+    exit(1);
+  }
+   printf("[+]Server socket created successfully.\n");
+
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = port;
+  server_addr.sin_addr.s_addr = inet_addr(ip);
+
+  e = bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+  if(e < 0) {
+    perror("[-]Error in bind");
+    exit(1);
+  }
+  printf("[+]Binding successfull.\n");
+
+  if(listen(sockfd, 5) == 0){
+		printf("[+]Listening....\n");
+	}else{
+		perror("[-]Error in listening");
+    exit(1);
+	}
+  printf("[+]accept the connection ....\n");
+  addr_size = sizeof(new_addr);
+  new_sock = accept(sockfd, (struct sockaddr*)&new_addr, &addr_size);
+  printf("[+]aceepted done ....\n");
+  
+  fp = fopen(filename, "w");
+ // while (1) {
+    n = recv(new_sock, buffer, 48000, 0);
+    if (n <= 0){
+     printf(" false in recv  \n");
+     // break;
+    //  return;
+    }
     
-    int sendsock, connfd, len;
-    struct sockaddr_in servaddr, cli;
-   
-    // socket create and verification
-    sendsock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sendsock == -1) {
-        printf("socket creation failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully created..\n");
-    bzero(&servaddr, sizeof(servaddr));
-   
-    // assign IP, PORT
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(port);
-   
-    // Binding newly created socket to given IP and verification
-    if ((bind(sendsock, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("socket bind failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully binded..\n");
-   
-    // Now server is ready to listen and verification ///
-    if ((listen(sendsock, 5)) != 0) {
-        printf("Listen failed...\n");
-        exit(0);
-    }
-    else
-        printf("Server listening..\n");
-    len = sizeof(cli);
-   
-    // Accept the data packet from client and verification
-    connfd = accept(sendsock, (SA*)&cli, &len);
-    if (connfd < 0) {
-        printf("server accept failed...\n");
-        exit(0);
-    }
-    else{
-        printf("server accept the client...\n");
-   }
-   
-    FILE *fl;
-   // char *filename = "file2.txt";
-    char * buffer[48000];
-
-    //fl = fopen(file, "w");
-   /* if(fl==NULL)
-    {
-        perror("[-]Error in creating file.");
-        exit(1);
-    }*/
-   	 n = recv(sendsock, buffer, 48000, 0);
-        if(n <=0)
-        {
-       	 perror("[-]Error in creating file.");
-        	exit(1);
-   	 }
-      printf("bien recu : %s", buffer);
-   
-
-      //close (sendsock);
-	
+    printf("bien recu : %s", buffer);
+    fprintf(fp, "%s", buffer);
+    bzero(buffer, 48000);
+ // }
+   printf("[+]Data written in the file successfully.\n");
 }
 
   ///#######################################################*/
