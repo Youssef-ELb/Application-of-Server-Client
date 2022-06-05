@@ -9,5 +9,5 @@ gcc all: server client
 	
 #clean function
 clean:
-	rm server.o
-	rm client.o
+	rm server
+	rm client
