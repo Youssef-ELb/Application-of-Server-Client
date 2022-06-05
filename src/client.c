@@ -114,11 +114,11 @@ void inscrir(int sock){
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 
-void receivefile()
+void receivefile(char *filename)
 {	
   int n;
   FILE *fp;
-  char *filename = "recv.txt";
+//  char *filename = "recv.txt";
   char buffer[48000];
 
   char *ip = "127.0.0.1";
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
         inscrir(sockfd);
          printf("\n call the function recv ...\n");
          
-       	 receivefile();
+       	 receivefile("recv.txt");
         
         
         
@@ -265,12 +265,9 @@ int main(int argc, char *argv[])
         {
             printf("\n Error : Fputs error\n");
         }
-	
-         
     }
         //attiendre la connexion
         printf("\n inscription done !!\n");
-        
         
         close(sockfd);
     

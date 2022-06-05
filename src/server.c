@@ -79,19 +79,19 @@ return fileBuff;
 *
 *********************************************************************************/
 
-void sendfile()
+void sendfile(char *ip , char *filename)
 {
 //
   int n;
   char data[48000] = {0};
-  char *ip = "127.0.0.1";
+  //char *ip = "127.0.0.1";
   int port = 7001;
   int e;
 
   int sockfd;
   struct sockaddr_in server_addr;
   FILE *fp;
-  char *filename = "send.txt";
+ // char *filename = "send.txt";
 
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if(sockfd < 0) {
@@ -162,7 +162,7 @@ void sendfile()
 
 int main(int argc, char *argv[])
 {
-    
+    char *ip = "127.0.0.1";
     char *fl ;
     fl = fopen("../src/data.txt","a");
     // La socket serveur
@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
         printf(" vous avez recus : %s \n", recvBuff);
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
       //  save_data(recvBuff);
-        sendfile();
+        sendfile(ip ,"send.txt");
         printf(" back from the call of function send file  \n ");
 
     }
