@@ -5,8 +5,7 @@ server:
 client: 	
 	gcc -o client.o -c client.c	
 
-gcc all:
-	server client
+gcc all: server client
 	
 #clean function
 clean:
