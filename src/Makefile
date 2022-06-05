@@ -1,7 +1,7 @@
 # Makefile for socket programs
 
 gcc all:
-        server client
+	server client
 
 server:	
 	gcc -o server.o -c server.c
