@@ -10,5 +10,5 @@ gcc all:
 	
 #clean function
 clean:
-	rm server
-	rm client
+	rm server.o
+	rm client.o
