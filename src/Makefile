@@ -1,13 +1,15 @@
 # Makefile for socket programs
 
-gcc all: server client
+gcc all:
+        server client
 
-server.o:	server.c
+server:	
 	gcc -o server.o -c server.c
-client.o: 	client.c
+client: 	
 	gcc -o client.o -c client.c
 	
 
 #clean function
 clean:
-	/bin/rm -rf client server
+	rm server
+	rm client
