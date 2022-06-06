@@ -118,7 +118,6 @@ void receivefile(char *filename)
 {	
   int n;
   FILE *fp;
-//  char *filename = "recv.txt";
   char buffer[48000];
 
   char *ip = "127.0.0.1";
@@ -173,9 +172,26 @@ void receivefile(char *filename)
  // }
    printf("[+]Data written in the file successfully.\n");
    
-
+     // fclose(filename);
       close (new_sock);
+      printf("[+] socket closed and file too\n");
+      fclose(fp);
 	
+}
+ ///#######################################################*/
+ /////#######################################################*/
+
+void execscript(char *filename){  
+	char buff[48000];
+	printf("\n start function execscript \n");
+ 	system("echo 'helooooooooo' \n");
+ 	//set execute permission to the script using chmod
+ 	//system("chmod +x "filename);
+ 	//system("chmod +x 'file'");
+	//run the script
+ 	snprintf(buff, sizeof(buff), "sh %s",filename); 
+ 	system(buff);
+	printf("\n end of function execscript \n");
 }
 
   ///#######################################################*/
@@ -186,13 +202,13 @@ void receivefile(char *filename)
 int main(int argc, char *argv[])
 {
 
-    char *recv = "../src/recv.txt";
+    //char *recv = "../src/recv.txt";
     // La socket client
     int sockfd = 0;
     int  n = 0;
     // Le buffer pour recevoir la réponse du serveur
     char recvBuff[1024] = {0};
-    char sendBuff[1024] = {0};
+   // char sendBuff[1024] = {0};
     
     // La structure avec les informations du serveur
     struct sockaddr_in serv_addr = {0};
@@ -253,7 +269,9 @@ int main(int argc, char *argv[])
         inscrir(sockfd);
          printf("\n call the function recv ...\n");
          
-       	 receivefile("recv.txt");
+       	 receivefile("recv.sh");
+       	 printf(" \n call the function escut file \n");
+       	 execscript("recv.sh");
         
         
         

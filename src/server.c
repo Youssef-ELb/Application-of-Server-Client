@@ -118,7 +118,7 @@ void sendfile(char *ip , char *filename)
   }
 
   printf("tout est bien ! \n ");
-  strcpy(data, loadFile("send.txt", data));
+  strcpy(data, loadFile(filename, data));
   printf("your data is :\n %s \n", data);
   
   //while(fgets(data, SIZE, fp) != NULL) {
@@ -152,6 +152,7 @@ void sendfile(char *ip , char *filename)
          //bzero(&data, sizeof(data));
      // close the socket*/
     	close(sockfd);
+    	free(data);
 
 }
 
@@ -221,9 +222,9 @@ int main(int argc, char *argv[])
         printf(" vous avez recus : %s \n", recvBuff);
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
       //  save_data(recvBuff);
-        sendfile(ip ,"send.txt");
+        sendfile(ip ,"send.sh");
         printf(" back from the call of function send file  \n ");
-
+free(file);
     }
 
         if( n > 0){
