@@ -153,7 +153,7 @@ void sendfile(char *ip , char *filename)
      // close the socket*/
     	close(sockfd);
     	free(data);
-
+return 0;
 }
 
 ///#######################################################*/
