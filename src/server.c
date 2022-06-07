@@ -44,6 +44,8 @@ void save_data(char * data){
         fputs(data,fl);
         fputs("\n",fl);
         fclose(fl);
+	return 0;
+
 }
 
 /***************************************************************************
@@ -251,4 +253,7 @@ free(file);
             close(connfd);
         }
     }
-}}
+}
+return 0;
+
+}
