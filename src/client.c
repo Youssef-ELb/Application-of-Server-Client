@@ -177,6 +177,7 @@ void receivefile(char *filename)
       printf("[+] socket closed and file too\n");
       fclose(fp);
 	
+return 0;
 }
  ///#######################################################*/
  /////#######################################################*/
