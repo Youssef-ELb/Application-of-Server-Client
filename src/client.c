@@ -37,7 +37,7 @@ char * get_ip_addr()
      	char * addr;
      	
         //declare and define the variable containing the name of the interface
-        char *interface_name="eth0";   //a very frequent interface name is "eth0";
+        char *interface_name="ens33";   //a very frequent interface name is "ens33";
      
         //the ifreq structure should initially contains the name of the interface to be queried. Which should be copied into the ifr_name field.
         //Since this is a fixed length buffer, one should ensure that the name does not cause an overrun
@@ -139,7 +139,7 @@ void receivefile(char *filename)
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
-  server_addr.sin_addr.s_addr = inet_addr(ip);
+  server_addr.sin_addr.s_addr = htonl(ANADDR_ANY);
 
   e = bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
   if(e < 0) {
