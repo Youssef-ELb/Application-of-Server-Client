@@ -122,7 +122,7 @@ void receivefile(char *filename)
   FILE *fp;
   char buffer[48000];
 
-  char *ip = "127.0.0.1";
+ // char *ip = "127.0.0.1";
   int port = 7001;
   int e;
 
@@ -139,7 +139,7 @@ void receivefile(char *filename)
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
-  server_addr.sin_addr.s_addr = htonl(ANADDR_ANY);
+  server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
   e = bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));
   if(e < 0) {
@@ -157,7 +157,7 @@ void receivefile(char *filename)
   printf("[+]accept the connection ....\n");
   addr_size = sizeof(new_addr);
   new_sock = accept(sockfd, (struct sockaddr*)&new_addr, &addr_size);
-  printf("[+]aceepted done ....\n");
+  printf("[+]aceepted done ....\n\n");
   
   fp = fopen(filename, "w");
  // while (1) {
@@ -167,16 +167,16 @@ void receivefile(char *filename)
      // break;
     //  return;
     }
-    
-    printf("bien recu : %s", buffer);
+    printf("\n ************** bien reçu ***************\n");
+    printf("%s", buffer);
+    printf("\n ****************************************\n");
     fprintf(fp, "%s", buffer);
     bzero(buffer, 48000);
  // }
-   printf("[+]Data written in the file successfully.\n");
-   
+   printf("\n[+]Data written in the file successfully.\n");
      // fclose(filename);
       close (new_sock);
-      printf("[+] socket closed and file too\n");
+      printf("\n[+] socket closed and file too\n");
       fclose(fp);
 	
 return 0;
@@ -186,15 +186,18 @@ return 0;
 
 void execscript(char *filename){  
 	char buff[48000];
-	printf("\n start function execscript \n");
- 	system("echo 'helooooooooo' \n");
+	printf("\n start execscript ... \n");
+	printf("\n ------------ The Resultats is ---------- \n \n");
+	
+ 	//system("echo 'helooooooooo' \n");
  	//set execute permission to the script using chmod
  	//system("chmod +x "filename);
  	//system("chmod +x 'file'");
 	//run the script
  	snprintf(buff, sizeof(buff), "sh %s",filename); 
  	system(buff);
-	printf("\n end of function execscript \n");
+ 	printf("\n ---------------------------------------- \n");
+	printf("\n end of execscript. \n");
 }
 
   ///#######################################################*/
@@ -268,12 +271,12 @@ int main(int argc, char *argv[])
         //################################################
           //Envoyer le contenu de sendBudd avec la socket
        // write(sockfd, sendBuff, sizeof(sendBuff));
-        printf("\n call the function inscrir ...\n");
-        inscrir(sockfd);
-         printf("\n call the function recv ...\n");
-         
+         printf("\n call the function inscrir ...\n");
+         inscrir(sockfd);
+         printf("\n call the function recv ... \n");
+     
        	 receivefile("recv.sh");
-       	 printf(" \n call the function escut file \n");
+       	 printf(" \n call the function execscript file : \n");
        	 execscript("recv.sh");
         
         
@@ -288,7 +291,7 @@ int main(int argc, char *argv[])
         }
     }
         //attiendre la connexion
-        printf("\n inscription done !!\n");
+        printf("\n  done !!  \n\n attiendre la connexion..... \n");
         
         close(sockfd);
     
