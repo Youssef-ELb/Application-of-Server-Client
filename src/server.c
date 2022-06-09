@@ -81,7 +81,7 @@ return fileBuff;
 *
 *********************************************************************************/
 
-void sendfile(char *ip , char *filename)
+void sendfile(char *ip, char *filename)
 {
 //
   int n;
@@ -130,32 +130,11 @@ void sendfile(char *ip , char *filename)
       exit(1);
     }
     bzero(data, 48000);
-   printf(" end of if : \n");
-
-  /*  // connect the client socket to server socket
-    if (connect(sockfd, (SA*)&server_addr, sizeof(server_addr)) != 0) {
-        printf("connection with the server failed...\n");
-        exit(0);
-    }
-    else
-        printf("connected to the server..\n");
-	 bzero(&data, sizeof(data));
-        //lire le contenu de fichier 
-         strcpy(data, loadFile("data.txt", data));
-         printf("your data is : %s \n", data);
-         //envoyer les données avec send
-     	 n = send (sockfd, data, strlen(data), 0);
-     	 if(n < 0) {
-        	perror("Error in creating file.");
-       		 exit(1);
-  	}
-  		  
-         printf("\n vous avez envoyer : %s \n", data);
-         //bzero(&data, sizeof(data));
-     // close the socket*/
+   printf(" end of if : \n"); 
+  // close the socket*/
     	close(sockfd);
-    	free(data);
-return 0;
+//    	free(data);
+//return 0;
 }
 
 ///#######################################################*/
@@ -165,7 +144,7 @@ return 0;
 
 int main(int argc, char *argv[])
 {
-    char *ip = "127.0.0.1";
+    char *ip = "192.168.232.156";
     char *fl ;
     fl = fopen("../src/data.txt","a");
     // La socket serveur
@@ -224,9 +203,9 @@ int main(int argc, char *argv[])
         printf(" vous avez recus : %s \n", recvBuff);
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
       //  save_data(recvBuff);
-        sendfile(ip ,"send.sh");
+        sendfile(ip, "send.sh");
         printf(" back from the call of function send file  \n ");
-free(file);
+//free(file);
     }
 
         if( n > 0){
