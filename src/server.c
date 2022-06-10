@@ -23,6 +23,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+
 #define SA struct sockaddr
 
 /********************************************************************************
@@ -92,6 +93,10 @@ void sendfile(char *ip, char *filename)
 
   int sockfd;
   struct sockaddr_in server_addr;
+  struct linger so_linger;
+  int z;
+  so_linger.l_onoff = 1;
+  so_linger.l_linger = 0;
   FILE *fp;
   FILE *rst;
  // char *filename = "send.txt";
@@ -102,7 +107,13 @@ void sendfile(char *ip, char *filename)
     exit(1);
   }
   printf("[+]Server socket created successfully.\n");
-
+  printf("[+]so linger.\n");
+  z=setsockopt(sockfd,SOL_SOCKET,SO_LINGER,&so_linger,sizeof so_linger);
+  if(z){
+  	perror("setsocketopt(2)");
+  }
+  printf("so linger done \n");
+	
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
   server_addr.sin_addr.s_addr = inet_addr(ip);
