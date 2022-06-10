@@ -29,7 +29,7 @@
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-
+char * loadFile(char *name, char  *fileBuff);
 char * get_ip_addr()
 {
      //create an ifreq struct for passing data in and out of ioctl
@@ -120,12 +120,14 @@ void receivefile(char *filename)
 {	
   int n;
   FILE *fp;
+  FILE *rst;
   char buffer[48000];
-
+ // char bufrst[1024];
+  char *result = "/tmp/result.txt";
  // char *ip = "127.0.0.1";
   int port = 7001;
   int e;
-
+  
   int sockfd, new_sock;
   struct sockaddr_in server_addr, new_addr;
   socklen_t addr_size;
@@ -175,12 +177,41 @@ void receivefile(char *filename)
  // }
    printf("\n[+]Data written in the file successfully.\n");
      // fclose(filename);
+      fclose(fp);
+      
+     
+      
+    printf("tout est bien ! \n ");
+  strcpy(buffer, loadFile(result, buffer));
+  printf("your data is :\n %s \n", buffer);
+   
+   
+   
+     
       close (new_sock);
       printf("\n[+] socket closed and file too\n");
-      fclose(fp);
+     
 	
 return 0;
 }
+///#######################################################*/
+ /////#######################################################*/
+ 
+char * loadFile(char *name, char  *fileBuff){
+	   FILE *pFile = NULL;
+	 char c;
+	 int i = 0;
+	 pFile = fopen(name, "rt");
+	 while((c =fgetc(pFile)) != EOF){
+	 fileBuff[i] = c ;
+	 i++;
+	 
+	 }
+	  // terminate
+	  fclose (pFile);
+return fileBuff;
+}
+
  ///#######################################################*/
  /////#######################################################*/
 
