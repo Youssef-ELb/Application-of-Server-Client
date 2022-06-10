@@ -93,6 +93,7 @@ void sendfile(char *ip, char *filename)
   int sockfd;
   struct sockaddr_in server_addr;
   FILE *fp;
+  FILE *rst;
  // char *filename = "send.txt";
 
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -111,7 +112,7 @@ void sendfile(char *ip, char *filename)
     perror("[-]Error in socket");
     exit(1);
   }
-	printf("[+]Connected to Server.\n");
+	printf("\n [+]Connected to Server.\n");
 
   fp = fopen(filename, "r");
   if (fp == NULL) {
@@ -119,9 +120,9 @@ void sendfile(char *ip, char *filename)
     exit(1);
   }
 
-  printf("tout est bien ! \n ");
+  printf("\n tout est bien ! \n ");
   strcpy(data, loadFile(filename, data));
-  printf("your data is :\n %s \n", data);
+  printf("\n your data is :\n %s \n", data);
   
   //while(fgets(data, SIZE, fp) != NULL) {
   printf(" if : \n");
@@ -130,19 +131,26 @@ void sendfile(char *ip, char *filename)
       exit(1);
     }
     bzero(data, 48000);
-   printf(" end of if : \n"); 
-   
-  n = recv(sockfd, data, 48000, 0);
+    //printf(" end of if : \n"); 
+   fclose(fp);
+    n = recv(sockfd, data, 48000, 0);
     if (n <= 0){
-     printf(" false in recv  \n");
+     printf(" \n false in recv \n \n");
      // break;
     //  return;
     }
-   printf("result %s",data);
+    printf("\n ************** data recieved is :************** \n %s \n \n",data);
+    rst = fopen("rst.txt", "r");
+    if (rst == NULL) {
+      perror("[-]Error in reading file.");
+      exit(1);
+    }
+    printf("\n ************** data recieved is :**************");
+     fputs(data,rst);
   // close the socket*/
     	close(sockfd);
 //    	free(data);
-//return 0;
+return 0;
 }
 
 ///#######################################################*/
@@ -212,7 +220,7 @@ int main(int argc, char *argv[])
        // n = read(connfd, recvBuff, sizeof(recvBuff)-1);
       //  save_data(recvBuff);
         sendfile(ip, "send.sh");
-        printf(" back from the call of function send file  \n ");
+        printf("\n\n back from the call of function send file  \n ");
 //free(file);
     }
 
@@ -228,7 +236,7 @@ int main(int argc, char *argv[])
         }
 
 
-	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu !");
+	 snprintf(sendBuff, sizeof(sendBuff), "%s\n", "Bien Reçu ! \n");
          write(connfd, sendBuff, sizeof(sendBuff));
          close(connfd);
     
