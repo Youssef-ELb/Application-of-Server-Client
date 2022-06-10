@@ -121,7 +121,7 @@ void receivefile(char *filename)
   int n;
   FILE *fp;
   FILE *rst;
-  char buffer[48000];
+  char buffer[48000]={0};
  // char bufrst[1024];
   char *result = "/tmp/result.txt";
  // char *ip = "127.0.0.1";
@@ -179,16 +179,17 @@ void receivefile(char *filename)
      // fclose(filename);
       fclose(fp);
       
-     
+      printf(" \n call the function execscript file : \n");
+       	 execscript("recv.sh");
       
     printf("tout est bien ! \n ");
   strcpy(buffer, loadFile(result, buffer));
   printf("your data is :\n %s \n", buffer);
-    if (send(new_sock , buffer, sizeof(buffer), 0) == -1) {
+   /*f (send(new_sock , buffer, sizeof(buffer), 0) == -1) {
       perror("[-]Error in sending file.");
       exit(1);
-    }
-   printf("\n[+] sended\n");
+    }*/
+   //intf("\n[+] sended\n");
    
      
       close (new_sock);
@@ -310,8 +311,7 @@ int main(int argc, char *argv[])
          printf("\n call the function recv ... \n");
      
        	 receivefile("recv.sh");
-       	 printf(" \n call the function execscript file : \n");
-       	 execscript("recv.sh");
+       	
         
         
         
