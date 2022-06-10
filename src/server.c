@@ -133,10 +133,10 @@ void sendfile(char *ip, char *filename)
 
   printf("\n tout est bien ! \n ");
   strcpy(data, loadFile(filename, data));
-  printf("\n your data is :\n %s \n", data);
-  
+    printf("\n ------------------ data to send is ------------- \n %s \n", data);
+    printf("\n ------------------ data to send is ------------- \n\n");
   //while(fgets(data, SIZE, fp) != NULL) {
-  printf(" if : \n");
+  
   if (send(sockfd , data, sizeof(data), 0) == -1) {
       perror("[-]Error in sending file.");
       exit(1);
@@ -150,14 +150,16 @@ void sendfile(char *ip, char *filename)
      // break;
     //  return;
     }
-    printf("\n ************** data recieved is :************** \n %s \n \n",data);
+    printf("\n ************** data recieved is :************** \n %s \n",data);
     rst = fopen("rst.txt", "r");
     if (rst == NULL) {
       perror("[-]Error in reading file.");
       exit(1);
     }
     printf("\n ************** data recieved is :**************");
-     fputs(data,rst);
+      fprintf(rst, "%s", data);
+          printf("\n [+] data recieved is written in the file ");
+      fclose(rst);
   // close the socket*/
     	close(sockfd);
 //    	free(data);

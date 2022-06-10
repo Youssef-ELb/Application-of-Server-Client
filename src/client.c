@@ -121,6 +121,10 @@ void receivefile(char *filename)
   int n;
   FILE *fp;
   FILE *rst;
+  struct linger so_linger;
+  int z;
+  so_linger.l_onoff = 1;
+  so_linger.l_linger = 0;
   char buffer[48000]={0};
  // char bufrst[1024];
   char *result = "/tmp/result.txt";
@@ -138,7 +142,10 @@ void receivefile(char *filename)
     exit(1);
   }
    printf("[+]Server socket created successfully.\n");
-
+ z=setsockopt(sockfd,SOL_SOCKET,SO_LINGER,&so_linger,sizeof so_linger);
+  if(z){
+  	perror("setsocketopt(2)");
+  }
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
   server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -233,6 +240,8 @@ void execscript(char *filename){
  	system(buff);
  	printf("\n ---------------------------------------- \n");
 	printf("\n end of execscript. \n");
+	
+	return 0;
 }
 
   ///#######################################################*/
