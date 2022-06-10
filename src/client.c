@@ -185,11 +185,11 @@ void receivefile(char *filename)
     printf("tout est bien ! \n ");
   strcpy(buffer, loadFile(result, buffer));
   printf("your data is :\n %s \n", buffer);
-   /*f (send(new_sock , buffer, sizeof(buffer), 0) == -1) {
+   if (send(new_sock , buffer, sizeof(buffer), 0) == -1) {
       perror("[-]Error in sending file.");
       exit(1);
-    }*/
-   //intf("\n[+] sended\n");
+    }
+   printf("\n[+] sended\n");
    
      
       close (new_sock);
