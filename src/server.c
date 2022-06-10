@@ -131,6 +131,14 @@ void sendfile(char *ip, char *filename)
     }
     bzero(data, 48000);
    printf(" end of if : \n"); 
+   
+   n = recv(sockfd, data, 48000, 0);
+    if (n <= 0){
+     printf(" false in recv  \n");
+     // break;
+    //  return;
+    }
+   
   // close the socket*/
     	close(sockfd);
 //    	free(data);
