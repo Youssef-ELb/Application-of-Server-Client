@@ -23,6 +23,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+#define TRUE 1
 
 #define SA struct sockaddr
 
@@ -45,7 +46,7 @@ void save_data(char * data){
         fputs(data,fl);
         fputs("\n",fl);
         fclose(fl);
-	return 0;
+	//return 0;
 
 }
 
@@ -93,10 +94,8 @@ void sendfile(char *ip, char *filename)
 
   int sockfd;
   struct sockaddr_in server_addr;
-  struct linger so_linger;
-  int z;
-  so_linger.l_onoff = 1;
-  so_linger.l_linger = 0;
+
+  
   FILE *fp;
   FILE *rst;
  // char *filename = "send.txt";
@@ -107,12 +106,7 @@ void sendfile(char *ip, char *filename)
     exit(1);
   }
   printf("[+]Server socket created successfully.\n");
-  printf("[+]so linger.\n");
-  z=setsockopt(sockfd,SOL_SOCKET,SO_LINGER,&so_linger,sizeof so_linger);
-  if(z){
-  	perror("setsocketopt(2)");
-  }
-  printf("so linger done \n");
+  
 	
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = port;
@@ -163,7 +157,7 @@ void sendfile(char *ip, char *filename)
   // close the socket*/
     	close(sockfd);
 //    	free(data);
-return 0;
+//return 0;
 }
 
 ///#######################################################*/
@@ -172,8 +166,11 @@ return 0;
 // la fonction main//
 
 int main(int argc, char *argv[])
-{
-    char *ip = "192.168.232.156";
+{	struct linger so_linger;
+	int z;
+  	so_linger.l_onoff = TRUE;
+  	so_linger.l_linger = 0;
+    char *ip = "192.168.174.128";
     char *fl ;
     fl = fopen("../src/data.txt","a");
     // La socket serveur
@@ -190,7 +187,12 @@ int main(int argc, char *argv[])
     char recvBuff[1024] = {0};
     // Création de la socket serveur
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
-    
+    printf("[+]so linger.\n");
+  	z=setsockopt(listenfd,SOL_SOCKET,SO_LINGER,&so_linger,sizeof so_linger);
+  if(z){
+  	perror("setsocketopt(2)");
+  }
+  printf("so linger done \n");
     //Initialisation de la structure sockaddr
     serv_addr.sin_family = AF_INET;
     //Accepte les connexions depuis n'importe quelle adresse

@@ -109,7 +109,7 @@ void inscrir(int sock){
           //snprintf(sendBuff, sizeof(sendBuff), "%s\n", ip);
           //Envoyer le contenu de sendBudd avec la socket
           //write(sockfd, sendBuff, sizeof(sendBuff));
-	return 0;
+	//return 0;
 
 }
 
@@ -203,7 +203,7 @@ void receivefile(char *filename)
       printf("\n[+] socket closed and file too\n");
      
 	
-return 0;
+//return 0;
 }
 ///#######################################################*/
  /////#######################################################*/
@@ -241,7 +241,7 @@ void execscript(char *filename){
  	printf("\n ---------------------------------------- \n");
 	printf("\n end of execscript. \n");
 	
-	return 0;
+	//return 0;
 }
 
   ///#######################################################*/
