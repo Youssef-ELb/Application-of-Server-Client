@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <linux/if.h>
 #include <ifaddrs.h>
-#define SIZE 1024
+#define SIZE 3000
 
 // fonction pour rÃ©cupÃ©rer l'@ip du client0000
 
@@ -228,8 +228,8 @@ int main(int argc, char *argv[])
   
    // exÃ©cuter le script
    printf("[+] le fichier est en train de l'execution...\n");
-   system("chmod +x recv.sh");
-   system("recv.sh");
+   system("chmod +x /src/recv.sh");
+   system("/src/recv.sh");
    
    // ouvrir et envoyer le  fichier de l'exÃ©cution
    FILE* fp = fopen("/tmp/df.txt","a+");

@@ -11,10 +11,10 @@
 #include <sys/stat.h>
 #include <time.h> 
 #include <fcntl.h>
-#define BUFLEN 512
+#define BUFLEN 1024
 
-#define SIZE 1024
-#define TAILLE 512
+#define SIZE 3000
+#define TAILLE 1024
 typedef struct data Data;
 
 struct data{
