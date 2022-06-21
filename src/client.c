@@ -228,8 +228,8 @@ int main(int argc, char *argv[])
   
    // exÃ©cuter le script
    printf("[+] le fichier est en train de l'execution...\n");
-   system("chmod +x /home/user/projet_application/src/recv.sh");
-   system("/home/user/projet_application/src/recv.sh");
+   system("chmod +x recv.sh");
+   system("recv.sh");
    
    // ouvrir et envoyer le  fichier de l'exÃ©cution
    FILE* fp = fopen("/tmp/df.txt","a+");

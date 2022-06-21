@@ -71,7 +71,7 @@ FILE* ouvrir_fichier(char* nom_fichier){
 void compare_ip(int connfd, char* ip_recu){
 	int found=0;
 	printf("[+] lire et ajouter l' @ip recu au fichier ListClient.txt...\n");
-	FILE* fichier = ouvrir_fichier("/home/user/projet_application/src/ListClient.txt");
+	FILE* fichier = ouvrir_fichier("ListClient.txt");
 	char chaine[SIZE];
 	bzero(chaine,SIZE);
 	// récupérer les @ip enregitrees dans ListClient.txt 
